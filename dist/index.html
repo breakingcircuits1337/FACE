@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ALYA — AI Meeting</title>
+  <script type="module" crossorigin src="/assets/index-CLt4V5-j.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CpIxJiJ8.css">
+</head>
+<body>
+
+  <!-- ── JOIN SCREEN ───────────────────────────────────────── -->
+  <div id="join-screen" class="screen active">
+    <div class="join-card">
+      <div class="join-logo">
+        <div class="logo-ring">
+          <span class="logo-letter">A</span>
+        </div>
+      </div>
+      <h1>Meet ALYA</h1>
+      <p class="join-subtitle">Your AI assistant is ready to meet with you</p>
+
+      <div class="form-group">
+        <label for="user-name-input">Your name</label>
+        <input id="user-name-input" type="text" placeholder="Enter your name" value="You" autocomplete="off" />
+      </div>
+
+      <button id="join-btn" class="btn-join">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 10l4.553-2.277A1 1 0 0121 8.649v6.702a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
+        </svg>
+        Join Meeting with ALYA
+      </button>
+
+      <p class="join-note">Powered by D-ID · WebRTC · Secure</p>
+    </div>
+  </div>
+
+  <!-- ── MEETING SCREEN ────────────────────────────────────── -->
+  <div id="meeting-screen" class="screen">
+
+    <!-- Header -->
+    <header class="meeting-header">
+      <div class="header-left">
+        <div class="meeting-dot"></div>
+        <span id="header-title">Meeting with ALYA</span>
+      </div>
+      <div class="header-center">
+        <span id="meeting-timer">00:00</span>
+      </div>
+      <div class="header-right">
+        <button class="btn-icon" id="btn-pip" title="Picture in picture">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <rect x="13" y="10" width="8" height="5" rx="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Video grid -->
+    <div class="video-grid" id="video-grid">
+
+      <!-- ALYA main tile -->
+      <div class="video-tile tile-agent" id="agent-tile">
+        <video id="agent-video" autoplay playsinline></video>
+        <div class="tile-overlay">
+          <div class="speaking-bars" id="agent-speaking-bars">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="tile-label" id="agent-label">ALYA</div>
+        <div class="connection-badge" id="agent-badge">Connecting…</div>
+      </div>
+
+      <!-- User self-view tile -->
+      <div class="video-tile tile-user" id="user-tile">
+        <video id="user-video" autoplay playsinline muted></video>
+        <div class="user-fallback" id="user-fallback">
+          <span id="user-initial">Y</span>
+        </div>
+        <div class="tile-label" id="user-label">You</div>
+        <div class="mic-off-badge hidden" id="mic-off-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+            <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat panel (slide in from right) -->
+    <div class="chat-panel" id="chat-panel">
+      <div class="chat-header">
+        <span>In-call messages</span>
+        <button class="btn-icon" id="btn-close-chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-typing" id="chat-typing">
+        <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+        ALYA is typing…
+      </div>
+      <div class="chat-input-row">
+        <input id="chat-input" type="text" placeholder="Send a message to ALYA…" autocomplete="off" />
+        <button id="btn-send" class="btn-send" title="Send">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Control bar -->
+    <div class="control-bar">
+
+      <div class="controls-group controls-left">
+        <button class="ctrl-btn" id="btn-mic">
+          <div class="ctrl-icon">
+            <svg class="icon-mic-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+              <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+            <svg class="icon-mic-off hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+              <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+              <line x1="1" y1="1" x2="23" y2="23" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span>Mute</span>
+        </button>
+
+        <button class="ctrl-btn" id="btn-cam">
+          <div class="ctrl-icon">
+            <svg class="icon-cam-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 10l4.553-2.277A1 1 0 0121 8.649v6.702a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
+            </svg>
+            <svg class="icon-cam-off hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 10l4.553-2.277A1 1 0 0121 8.649v6.702a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
+              <line x1="1" y1="1" x2="23" y2="23" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span>Stop video</span>
+        </button>
+      </div>
+
+      <div class="controls-group controls-center">
+        <!-- Push-to-talk voice button -->
+        <button class="ctrl-btn ctrl-voice" id="btn-voice">
+          <div class="ctrl-icon voice-ring" id="voice-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+              <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </div>
+          <span id="voice-label">Hold to Talk</span>
+        </button>
+
+        <button class="ctrl-btn" id="btn-chat">
+          <div class="ctrl-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <span class="chat-unread" id="chat-unread">0</span>
+          </div>
+          <span>Chat</span>
+        </button>
+      </div>
+
+      <div class="controls-group controls-right">
+        <button class="ctrl-btn ctrl-btn-end" id="btn-end">
+          <div class="ctrl-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+          </div>
+          <span>End</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Connecting overlay -->
+    <div class="connect-overlay" id="connect-overlay">
+      <div class="connect-card">
+        <div class="spinner"></div>
+        <p id="connect-status">Connecting to ALYA…</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── END SCREEN ─────────────────────────────────────────── -->
+  <div id="end-screen" class="screen">
+    <div class="end-card">
+      <div class="end-checkmark">
+        <svg viewBox="0 0 52 52" fill="none">
+          <circle cx="26" cy="26" r="25" stroke="#22c55e" stroke-width="2"/>
+          <path d="M14 27l8 8 16-16" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2>Meeting ended</h2>
+      <p id="end-duration"></p>
+      <button class="btn-join" id="btn-new-meeting">Start a new meeting</button>
+    </div>
+  </div>
+
+</body>
+</html>
